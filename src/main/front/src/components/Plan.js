@@ -1,23 +1,26 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
-import axios from "axios";
 import { useState } from "react";
 
 
 function Plan() {
   const [message, setMessage] = useState("");
-  const sayhi = async()=>{
-  
-  axios.get("/user/test", {params:{say:"hi"}}).then(res => {
-        console.log(res.data);
-        setMessage(res.data);
-  }).catch((error)=>{console.log("오류")});
-}
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/user/message");
+      const data = await response.text();
+      setMessage(data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   return (
     <div>
-      <h1>플랜</h1>
-      <Button variant="success" onClick={sayhi}>button</Button>
-      {message}
+      <h1>Fetch Data Example</h1>
+      <Button onClick={fetchData}>Fetch Data</Button>
+      <p>{message}</p>
     </div>
   );
 }
