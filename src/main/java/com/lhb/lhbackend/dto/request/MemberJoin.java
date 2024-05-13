@@ -4,7 +4,6 @@ public class MemberJoin {
     private String name;
     private String email;
     private String password;
-    private String passwordCheck;
 
     public String getName() {
         return name;
@@ -18,7 +17,25 @@ public class MemberJoin {
         return password;
     }
 
-    public String getPasswordCheck() {
-        return passwordCheck;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberJoin{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

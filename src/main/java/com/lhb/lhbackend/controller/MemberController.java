@@ -1,8 +1,16 @@
 package com.lhb.lhbackend.controller;
 
 import com.lhb.lhbackend.dto.request.MemberJoin;
+import com.lhb.lhbackend.dto.request.MemberLogin;
+import com.lhb.lhbackend.entity.Member;
+import com.lhb.lhbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 //@RestController
 //public class MemberController {
@@ -16,29 +24,44 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class MemberController {
-    @GetMapping("/signup")
-    @ResponseBody
-    public String signup(@RequestBody MemberJoin memberJoin) {
-        System.out.println(memberJoin.getEmail());
-        System.out.println(memberJoin.getPassword());
-        System.out.println(memberJoin.getName());
-        System.out.println(memberJoin.getPasswordCheck());
+    public ArrayList<MemberJoin> memberList = new ArrayList<>();
+    MemberService memberService;
 
-        return memberJoin.getEmail();
-    }
-    @GetMapping("/test")
-    public String test(@RequestBody String say) {
-        return "완료!"+say;
+
+    @Autowired
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
-    @GetMapping("/message")
-    public String receiveMessage() {
-        return "hijun"; // 받은 메시지를 그대로 응답
+    @PostMapping("/signup")
+    public ResponseEntity<String> signup(@RequestBody MemberJoin memberJoin) {
+        try{
+            memberList.add(memberJoin);
+            return ResponseEntity.ok(memberJoin.toString());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody MemberLogin memberLogin){
+        if(memberService.logable(memberLogin, memberList)) {
+            return ResponseEntity.ok(memberLogin.toString());
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 또는 비밀번호가 올바르지 않습니다.");
+        }
+    }
+
     @PostMapping("/checkEmail")
     @ResponseBody
     public String checkEmail(@RequestParam String email) {
         System.out.println(email);
         return email;
+    }
+    @GetMapping("/userList")
+    @ResponseBody
+    public ResponseEntity<ArrayList<MemberJoin>> getMemberList(){
+        return ResponseEntity.ok(memberList);
     }
 }
