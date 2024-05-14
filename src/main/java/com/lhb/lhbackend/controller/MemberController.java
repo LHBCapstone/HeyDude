@@ -54,10 +54,12 @@ public class MemberController {
     }
 
     @PostMapping("/checkEmail")
-    public String checkEmail(@RequestParam String email) {
-        
-        System.out.println(email);
-        return email;
+    public ResponseEntity<String> checkEmail(@RequestBody String email) {
+        if(!memberService.checkEmail(email, memberList)){
+            return ResponseEntity.ok(email);
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 또는 비밀번호가 올바르지 않습니다.");
+        }
     }
 
     @GetMapping("/userList")
