@@ -54,11 +54,12 @@ public class MemberController {
     }
 
     @PostMapping("/checkEmail")
-    @ResponseBody
     public String checkEmail(@RequestParam String email) {
+        
         System.out.println(email);
         return email;
     }
+
     @GetMapping("/userList")
     @ResponseBody
     public ResponseEntity<ArrayList<MemberJoin>> getMemberList(){

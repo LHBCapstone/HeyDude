@@ -28,4 +28,15 @@ public class MemberService {
         }
         return false;
     }
+
+    public boolean checkEmail(String email, ArrayList<MemberJoin> memberList) {
+        for(MemberJoin memberJoin : memberList) {
+            if(email.equals(memberJoin.getEmail())) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
 }
