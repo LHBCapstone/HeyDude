@@ -3,6 +3,7 @@ package com.lhb.lhbackend.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lhb.lhbackend.dto.request.MemberCheckEmail;
 import com.lhb.lhbackend.dto.request.MemberJoin;
 import com.lhb.lhbackend.dto.request.MemberLogin;
 import com.lhb.lhbackend.entity.Member;
@@ -29,9 +30,9 @@ public class MemberService {
         return false;
     }
 
-    public boolean checkEmail(String email, ArrayList<MemberJoin> memberList) {
+    public boolean checkEmail(MemberCheckEmail email, ArrayList<MemberJoin> memberList) {
         for(MemberJoin memberJoin : memberList) {
-            if(email.equals(memberJoin.getEmail())) {
+            if(email.getEmail().equals(memberJoin.getEmail())) {
                 return true;
             }else{
                 return false;
