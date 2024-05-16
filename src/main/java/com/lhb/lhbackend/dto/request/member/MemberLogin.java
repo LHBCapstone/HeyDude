@@ -1,12 +1,13 @@
-package com.lhb.lhbackend.dto.request;
+package com.lhb.lhbackend.dto.request.member;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
 @Getter
+@Setter
 @ToString
-public class MemberCheckEmail {
+public class MemberLogin {
     private String email;
+    private String password;
 }

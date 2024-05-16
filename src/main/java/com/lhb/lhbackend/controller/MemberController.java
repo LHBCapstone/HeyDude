@@ -1,9 +1,8 @@
 package com.lhb.lhbackend.controller;
 
-import com.lhb.lhbackend.dto.request.MemberCheckEmail;
-import com.lhb.lhbackend.dto.request.MemberJoin;
-import com.lhb.lhbackend.dto.request.MemberLogin;
-import com.lhb.lhbackend.entity.Member;
+import com.lhb.lhbackend.dto.request.member.MemberCheckEmail;
+import com.lhb.lhbackend.dto.request.member.MemberJoin;
+import com.lhb.lhbackend.dto.request.member.MemberLogin;
 import com.lhb.lhbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-//@RestController
-//public class MemberController {
-//
-//    @GetMapping("/user/message")
-//    public String getMessage() {
-//        return "Hello from Spring Boot!";
-//    }
-//}
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
