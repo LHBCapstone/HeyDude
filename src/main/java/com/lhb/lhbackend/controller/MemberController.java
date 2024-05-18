@@ -30,6 +30,7 @@ public class MemberController {
         try{
             memberList.add(memberJoin);
             return ResponseEntity.ok(memberJoin.toString());
+            
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
