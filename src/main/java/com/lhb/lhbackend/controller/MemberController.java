@@ -54,7 +54,6 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이미 사용중인 이메일 입니다.");
         }
     }
-
     
     @GetMapping("/userList")
     @ResponseBody
