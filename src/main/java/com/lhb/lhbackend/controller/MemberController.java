@@ -55,9 +55,6 @@ public class MemberController {
         }
     }
 
-
-
-
     @GetMapping("/userList")
     @ResponseBody
     public ResponseEntity<ArrayList<MemberJoin>> getMemberList(){
