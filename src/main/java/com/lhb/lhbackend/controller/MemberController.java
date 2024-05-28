@@ -3,6 +3,7 @@ package com.lhb.lhbackend.controller;
 import com.lhb.lhbackend.dto.request.member.MemberCheckEmail;
 import com.lhb.lhbackend.dto.request.member.MemberJoin;
 import com.lhb.lhbackend.dto.request.member.MemberLogin;
+import com.lhb.lhbackend.entity.Member;
 import com.lhb.lhbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,17 @@ public class MemberController {
     }
     @GetMapping("/userList")
     @ResponseBody
-    public ResponseEntity<ArrayList<MemberJoin>> getMemberList(){
+    public ResponseEntity<ArrayList<MemberJoin>> getMemberList() {
         return ResponseEntity.ok(memberList);
+    }
+
+    @PostMapping("profile")
+    public ResponseEntity<String> profile(@RequestBody String email ) {
+        for( MemberJoin memberJoin : memberList){
+            if(memberJoin.equals(email)){
+                return ResponseEntity.ok(memberJoin.toString());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("정보 없음");
     }
 }
