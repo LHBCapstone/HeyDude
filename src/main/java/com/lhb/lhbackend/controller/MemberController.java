@@ -54,16 +54,18 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이미 사용중인 이메일 입니다.");
         }
     }
+
     @GetMapping("/userList")
     @ResponseBody
     public ResponseEntity<ArrayList<MemberJoin>> getMemberList() {
         return ResponseEntity.ok(memberList);
     }
 
-    @PostMapping("profile")
-    public ResponseEntity<String> profile(@RequestBody String email ) {
+    @PostMapping("/profile")
+    public ResponseEntity<String> profile(@RequestBody MemberJoin email ) {
+        System.out.println(email.getEmail());
         for( MemberJoin memberJoin : memberList){
-            if(memberJoin.equals(email)){
+            if(memberJoin.getEmail().equals(email.getEmail())){
                 return ResponseEntity.ok(memberJoin.toString());
             }
         }
