@@ -62,13 +62,23 @@ public class MemberController {
     }
 
     @PostMapping("/profile")
-    public ResponseEntity<String> profile(@RequestBody MemberJoin email ) {
-        System.out.println(email.getEmail());
+    public ResponseEntity<MemberJoin> profile(@RequestBody MemberJoin email ) {
         for( MemberJoin memberJoin : memberList){
             if(memberJoin.getEmail().equals(email.getEmail())){
-                return ResponseEntity.ok(memberJoin.toString());
+                System.out.println(email.getEmail()+"반환");
+                return ResponseEntity.ok(memberJoin);
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("정보 없음");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(email);
+    }
+
+    @PostMapping("/changeName")
+    public ResponseEntity<MemberJoin> changeName(@RequestBody MemberJoin name) {
+        for( MemberJoin memberJoin : memberList){
+            if(memberJoin.getEmail().equals(name.getEmail())){
+                memberJoin.setName(name.getName());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(name);
     }
 }
