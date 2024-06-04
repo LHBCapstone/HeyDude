@@ -1,33 +1,54 @@
 package com.lhb.lhbackend.service;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lhb.lhbackend.dto.request.member.MemberCheckEmail;
 import com.lhb.lhbackend.dto.request.member.MemberJoin;
 import com.lhb.lhbackend.dto.request.member.MemberLogin;
-import org.springframework.stereotype.Service;
+import com.lhb.lhbackend.dto.request.member.MemberRepository;
+import com.lhb.lhbackend.entity.Member;
 
 @Service
 public class MemberService {
 
-    public boolean logable(MemberLogin memberLogin, ArrayList<MemberJoin> memberList) {
-        for(MemberJoin memberJoin : memberList) {
-            if(memberLogin.getEmail().equals(memberJoin.getEmail())) {
-                if(memberLogin.getPassword().equals(memberJoin.getPassword())) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
-    public boolean checkEmail(MemberCheckEmail email, ArrayList<MemberJoin> memberList) {
-        for(MemberJoin memberJoin : memberList) {
-            if(email.getEmail().equals(memberJoin.getEmail())) {
-                return true;
-            }
-        }
-        return false;
+
+    public void signup(MemberJoin memberJoin) {
+        Member member = new Member();
+        member.setEmail(memberJoin.getEmail());
+        member.setName(memberJoin.getName());
+        member.setPassword(memberJoin.getPassword());
+        memberRepository.save(member);
     }
 
+
+    public boolean logable(MemberLogin memberLogin) {
+        Member member = memberRepository.findByEmail(memberLogin.getEmail());
+        return member != null && member.getPassword().equals(memberLogin.getPassword());
+    }
+
+
+    public boolean checkEmail(MemberCheckEmail email) {
+        Member member = memberRepository.findByEmail(email.getEmail());
+        return member != null;
+    }
+
+    // 모든 회원 정보를 반환하는 메서드
+    public List<Member> getAllMembers() {
+        return memberRepository.findAll();
+    }
+
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
 }
