@@ -1,4 +1,4 @@
-package com.lhb.lhbackend.dto.request.member;
+package com.lhb.lhbackend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

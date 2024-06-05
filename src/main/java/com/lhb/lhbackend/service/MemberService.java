@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.lhb.lhbackend.dto.request.member.MemberCheckEmail;
 import com.lhb.lhbackend.dto.request.member.MemberJoin;
 import com.lhb.lhbackend.dto.request.member.MemberLogin;
-import com.lhb.lhbackend.dto.request.member.MemberRepository;
+import com.lhb.lhbackend.repository.MemberRepository;
 import com.lhb.lhbackend.entity.Member;
 
 @Service
@@ -50,5 +50,11 @@ public class MemberService {
 
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email);
+    }
+
+    public void changeName(Member mem, String name){
+        Member member = memberRepository.findByEmail(mem.getEmail());
+        member.setName(name);
+        memberRepository.save(member);
     }
 }

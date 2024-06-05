@@ -1,5 +1,6 @@
 package com.lhb.lhbackend.controller;
 
+import com.lhb.lhbackend.dto.request.member.MemberChangeName;
 import com.lhb.lhbackend.dto.request.member.MemberCheckEmail;
 import com.lhb.lhbackend.dto.request.member.MemberJoin;
 import com.lhb.lhbackend.dto.request.member.MemberLogin;
@@ -54,22 +55,18 @@ public class MemberController {
     }
 
     @PostMapping("/profile")
-    public ResponseEntity<String> profile(@RequestBody MemberCheckEmail email) {
+    public ResponseEntity<Member> profile(@RequestBody MemberCheckEmail email) {
         Member member = memberService.findByEmail(email.getEmail());
         if (member != null) {
-            return ResponseEntity.ok(member.toString());
+            return ResponseEntity.ok(member);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("정보 없음");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(member);
         }
     }
 
-    /*@PostMapping("/changeName")
-    public ResponseEntity<MemberJoin> changeName(@RequestBody MemberJoin name) {
-        for( MemberJoin memberJoin : memberList){
-            if(memberJoin.getEmail().equals(name.getEmail())){
-                memberJoin.setName(name.getName());
-            }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(name);
-    }*/
+    @PostMapping("/changeName")
+    public void changeName(@RequestBody MemberChangeName memberChangeName) {
+        Member member = memberService.findByEmail(memberChangeName.getEmail());
+        memberService.changeName(member, memberChangeName.getName());
+    }
 }
