@@ -52,9 +52,17 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
+    //이름 변경 메서드
     public void changeName(Member mem, String name){
         Member member = memberRepository.findByEmail(mem.getEmail());
         member.setName(name);
+        memberRepository.save(member);
+    }
+
+    //비밀번호 변경 메서드
+    public void changePassword(Member mem, String password) {
+        Member member = memberRepository.findByEmail(mem.getEmail());
+        member.setPassword(password);
         memberRepository.save(member);
     }
 }

@@ -1,9 +1,6 @@
 package com.lhb.lhbackend.controller;
 
-import com.lhb.lhbackend.dto.request.member.MemberChangeName;
-import com.lhb.lhbackend.dto.request.member.MemberCheckEmail;
-import com.lhb.lhbackend.dto.request.member.MemberJoin;
-import com.lhb.lhbackend.dto.request.member.MemberLogin;
+import com.lhb.lhbackend.dto.request.member.*;
 import com.lhb.lhbackend.entity.Member;
 import com.lhb.lhbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -57,11 +54,7 @@ public class MemberController {
     @PostMapping("/profile")
     public ResponseEntity<Member> profile(@RequestBody MemberCheckEmail email) {
         Member member = memberService.findByEmail(email.getEmail());
-        if (member != null) {
-            return ResponseEntity.ok(member);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(member);
-        }
+        return ResponseEntity.ok(member);
     }
 
     @PostMapping("/changeName")
@@ -69,4 +62,12 @@ public class MemberController {
         Member member = memberService.findByEmail(memberChangeName.getEmail());
         memberService.changeName(member, memberChangeName.getName());
     }
+    //이름 받아와서 이미 저장된 이름이면 변경 불가하도록 badRequest보내야 함
+
+    @PostMapping("/changePw")
+    public void changePw(@RequestBody MemberChangePw memberChangePw) {
+        Member member = memberService.findByEmail(memberChangePw.getEmail());
+        memberService.changePassword(member, memberChangePw.getPassword());
+    }
+    //이미 사용중인 패스워드면 안바꿔줌
 }
