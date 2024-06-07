@@ -1,4 +1,4 @@
-package com.lhb.lhbackend.dto.request.member;
+package com.lhb.lhbackend.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;

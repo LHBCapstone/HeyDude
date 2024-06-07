@@ -1,6 +1,6 @@
 package com.lhb.lhbackend.controller;
 
-import com.lhb.lhbackend.dto.request.member.*;
+import com.lhb.lhbackend.dto.member.*;
 import com.lhb.lhbackend.entity.Member;
 import com.lhb.lhbackend.service.MemberService;
 import lombok.RequiredArgsConstructor;

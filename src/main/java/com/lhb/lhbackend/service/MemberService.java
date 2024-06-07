@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lhb.lhbackend.dto.request.member.MemberCheckEmail;
-import com.lhb.lhbackend.dto.request.member.MemberJoin;
-import com.lhb.lhbackend.dto.request.member.MemberLogin;
+import com.lhb.lhbackend.dto.member.MemberCheckEmail;
+import com.lhb.lhbackend.dto.member.MemberJoin;
+import com.lhb.lhbackend.dto.member.MemberLogin;
 import com.lhb.lhbackend.repository.MemberRepository;
 import com.lhb.lhbackend.entity.Member;
 
