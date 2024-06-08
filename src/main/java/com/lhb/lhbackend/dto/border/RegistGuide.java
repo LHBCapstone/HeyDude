@@ -9,5 +9,5 @@ public class RegistGuide {
     private String title;
     private String email;
     private String content;
-    private int Price;
+    private int price;
 }
