@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class RegistGuide {
+public class GetGuides {
+    private Long id;
     private String title;
-    private String email;
     private String content;
-    private int Price;
+    private String write;
+    private String price;
 }
