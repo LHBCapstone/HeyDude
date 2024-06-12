@@ -15,6 +15,7 @@ public class Member {
     private String email;
     private String name;
     private String password;
+    private int point;
 
     @Column(updatable = false) // 업데이트되지 않도록 설정
     private LocalDateTime regDate;

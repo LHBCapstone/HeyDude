@@ -27,6 +27,7 @@ public class MemberService {
         member.setEmail(memberJoin.getEmail());
         member.setName(memberJoin.getName());
         member.setPassword(memberJoin.getPassword());
+        member.setPoint(3000);
         memberRepository.save(member);
     }
 

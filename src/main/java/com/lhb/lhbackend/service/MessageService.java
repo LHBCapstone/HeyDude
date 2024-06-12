@@ -48,9 +48,13 @@ public class MessageService {
         for(int i = 0 ; i < messageRepository.findAll().size(); i++){
             if((messageRepository.findAll().get(i).getFromMember().getId() == fromUser.getId()) ||
             (messageRepository.findAll().get(i).getToMember().getId() == fromUser.getId())){
+                if(messageRepository.findAll().get(i).getToMember().getEmail().equals(email)){
+                    continue;
+                }
                 GetTalkerDto getTalkerDto = new GetTalkerDto();
                 getTalkerDto.setToMemberId(messageRepository.findAll().get(i).getToMember().getId());
                 getTalkerDto.setToMemberName(messageRepository.findAll().get(i).getToMember().getName());
+                getTalkerDto.setToMemberEmail(messageRepository.findAll().get(i).getToMember().getEmail());
                 set.add(getTalkerDto);
             }
         }
@@ -62,21 +66,21 @@ public class MessageService {
         Optional<Member> toMemberOpt = memberRepository.findById(getMessageDto.getToMemberId());
         Member fromMember = memberRepository.findByEmail(getMessageDto.getFromMemberEmail());
 
-        if (toMemberOpt.isPresent()) {
-            Member toMember = toMemberOpt.get();
-            List<Message> messages = messageRepository.findByFromMemberAndToMember(fromMember, toMember);
+        for(Message message : messageRepository.findAll()){
+            GetMessageContentDto dto = new GetMessageContentDto();
+            if((message.getFromMember().getId() == fromMember.getId())
+            && (message.getToMember().getId() == toMemberOpt.get().getId()) || (
+            (message.getToMember().getId() == fromMember.getId()) &&
+            (message.getFromMember().getId() == toMemberOpt.get().getId()))
+                    ) {
 
-            for (Message message : messages) {
-                GetMessageContentDto dto = new GetMessageContentDto();
                 dto.setContent(message.getContent());
-                dto.setFromMemberId(fromMember.getId());
-                dto.setToMemberId(toMember.getId());
-                dto.setToMemberEmail(toMember.getEmail());
-                // 필요한 다른 필드 설정
+                dto.setToMemberEmail(message.getToMember().getEmail());
+                dto.setToMemberId(message.getToMember().getId());
+                dto.setFromMemberId(message.getFromMember().getId());
                 list.add(dto);
             }
         }
-
         return list;
     }
 }

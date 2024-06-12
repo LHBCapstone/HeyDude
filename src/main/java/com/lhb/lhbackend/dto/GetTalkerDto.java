@@ -11,6 +11,7 @@ public class GetTalkerDto {
 
     private Long toMemberId;
     private String toMemberName;
+    private String toMemberEmail;
 
     @Override
     public boolean equals(Object o) {
