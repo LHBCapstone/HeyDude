@@ -1,13 +1,12 @@
 package com.lhb.lhbackend.controller;
 
-import com.lhb.lhbackend.dto.GetMessageContentDto;
-import com.lhb.lhbackend.dto.GetMessageDto;
-import com.lhb.lhbackend.dto.GetTalkerDto;
-import com.lhb.lhbackend.dto.MessageDto;
+import com.lhb.lhbackend.dto.*;
+import com.lhb.lhbackend.entity.Guide;
 import com.lhb.lhbackend.entity.Message;
 import com.lhb.lhbackend.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +36,10 @@ public class MessageController {
     @GetMapping("getTalker/{fromUser}")
     public List<GetTalkerDto> getTalker(@PathVariable String fromUser) {
         return messageService.getTalker(fromUser);
+    }
+
+    @PostMapping("/reservation")
+    public ResponseEntity<Guide> reservation(@RequestBody ReservationDto reservationDto) {
+        return  messageService.reserveGuide(reservationDto);
     }
 }

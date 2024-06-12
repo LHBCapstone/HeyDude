@@ -20,8 +20,11 @@ public class Guide {
     private Member member;
 
     private String title;
+    private int reservation = 0 ;
 
     private int price;
+    private String reservedToMember;
+    private String reservedFromMember;
 
     @Column(columnDefinition = "TEXT")
     private String content;

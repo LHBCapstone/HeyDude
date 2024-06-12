@@ -1,14 +1,15 @@
 package com.lhb.lhbackend.service;
 
-import com.lhb.lhbackend.dto.GetMessageContentDto;
-import com.lhb.lhbackend.dto.GetMessageDto;
-import com.lhb.lhbackend.dto.GetTalkerDto;
-import com.lhb.lhbackend.dto.MessageDto;
+import com.lhb.lhbackend.dto.*;
+import com.lhb.lhbackend.entity.Guide;
 import com.lhb.lhbackend.entity.Member;
 import com.lhb.lhbackend.entity.Message;
+import com.lhb.lhbackend.repository.GuideRepository;
 import com.lhb.lhbackend.repository.MemberRepository;
 import com.lhb.lhbackend.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +18,7 @@ import java.util.*;
 public class MessageService {
     MessageRepository messageRepository;
     MemberRepository memberRepository;
+    GuideRepository guideRepository;
     @Autowired
     public MessageService(MessageRepository messageRepository, MemberRepository memberRepository) {
         this.messageRepository = messageRepository;
@@ -82,5 +84,20 @@ public class MessageService {
             }
         }
         return list;
+    }
+
+    public ResponseEntity<Guide> reserveGuide(ReservationDto reservationDto){
+        List<Guide> list = guideRepository.findAll();
+        Guide guide = new Guide();
+        for(Guide gay: list){
+            if(gay.getId()==reservationDto.getGuideId()){
+                guide = gay;
+            }
+        }
+
+        guide.setReservedFromMember(reservationDto.getFromMember());
+        guide.setReservedToMember(reservationDto.getToMember());
+        guideRepository.save(guide);
+        return new ResponseEntity<>(guide, HttpStatus.OK);
     }
 }
