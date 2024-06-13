@@ -38,8 +38,8 @@ public class MessageController {
         return messageService.getTalker(fromUser);
     }
 
-    @PostMapping("/reservation")
-    public ResponseEntity<Guide> reservation(@RequestBody ReservationDto reservationDto) {
-        return  messageService.reserveGuide(reservationDto);
+    @PostMapping("/requestRes/{status}")
+    public int requestRes(@PathVariable int status, @RequestBody ReservationDto reservationDto) {
+        return  messageService.reserve(status, reservationDto);
     }
 }

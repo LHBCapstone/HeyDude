@@ -20,9 +20,10 @@ public class MessageService {
     MemberRepository memberRepository;
     GuideRepository guideRepository;
     @Autowired
-    public MessageService(MessageRepository messageRepository, MemberRepository memberRepository) {
+    public MessageService(MessageRepository messageRepository, MemberRepository memberRepository, GuideRepository guideRepository) {
         this.messageRepository = messageRepository;
         this.memberRepository = memberRepository;
+        this.guideRepository = guideRepository;
     }
     public List<Message> getMessage(String email){
         List<Message> list = new ArrayList<>();
@@ -86,18 +87,19 @@ public class MessageService {
         return list;
     }
 
-    public ResponseEntity<Guide> reserveGuide(ReservationDto reservationDto){
+    public int reserve(int status, ReservationDto reservationDto){
         List<Guide> list = guideRepository.findAll();
         Guide guide = new Guide();
         for(Guide gay: list){
-            if(gay.getId()==reservationDto.getGuideId()){
+            if(gay.getId().equals(reservationDto.getGuideId())){
                 guide = gay;
             }
         }
-
         guide.setReservedFromMember(reservationDto.getFromMember());
         guide.setReservedToMember(reservationDto.getToMember());
+        guide.setReservation(1);
         guideRepository.save(guide);
-        return new ResponseEntity<>(guide, HttpStatus.OK);
+
+        return 1;
     }
 }
