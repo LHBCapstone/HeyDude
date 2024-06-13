@@ -89,17 +89,60 @@ public class MessageService {
 
     public int reserve(int status, ReservationDto reservationDto){
         List<Guide> list = guideRepository.findAll();
+        int retStatus = 0;
         Guide guide = new Guide();
         for(Guide gay: list){
             if(gay.getId().equals(reservationDto.getGuideId())){
                 guide = gay;
             }
         }
-        guide.setReservedFromMember(reservationDto.getFromMember());
-        guide.setReservedToMember(reservationDto.getToMember());
-        guide.setReservation(1);
-        guideRepository.save(guide);
+        if(status == 0){
+            guide.setReservedFromMember(reservationDto.getFromMember());
+            guide.setReservedToMember(reservationDto.getToMember());
+            guide.setReservation(1);
+            guideRepository.save(guide);
 
-        return 1;
+            retStatus = 1;
+
+        }else if(status == 1){
+            guide.setReservedFromMember(reservationDto.getFromMember());
+            guide.setReservedToMember(reservationDto.getToMember());
+            guide.setReservation(0);
+            guideRepository.save(guide);
+
+        }
+        return retStatus;
+    }
+
+    public Set<GetPostsDto> getPosts(String email){
+        List<GetPostsDto> list = new ArrayList<>();
+        Set<GetPostsDto> set = new HashSet<>();
+        List<Guide> guide = guideRepository.findAll();
+        for(Guide guide1 : guide){
+            if(guide1.getMember().getEmail().equals(email)){
+                GetPostsDto getPostsDto = new GetPostsDto();
+                getPostsDto.setGuideId(guide1.getId());
+                getPostsDto.setFromMemberEmail(guide1.getReservedFromMember());
+                getPostsDto.setTitle(guide1.getTitle());
+                getPostsDto.setReservation(guide1.getReservation());
+                list.add(getPostsDto);
+            }
+        }
+        set = new HashSet<>(list);
+        return set;
+    }
+
+    public void responseRes(Long guideId){
+        Optional<Guide> guide = guideRepository.findById(guideId);
+        if(guide.isPresent()){
+            Member toMember = memberRepository.findByEmail(guide.get().getReservedToMember());
+            Member fromMember = memberRepository.findByEmail(guide.get().getReservedFromMember());
+
+            toMember.setPoint(toMember.getPoint() + guide.get().getPrice());
+            fromMember.setPoint(fromMember.getPoint() - guide.get().getPrice());
+            guide.get().setReservation(2);
+            memberRepository.save(toMember);
+            guideRepository.save(guide.get());
+        }
     }
 }

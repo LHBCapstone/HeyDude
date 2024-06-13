@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,5 +42,14 @@ public class MessageController {
     @PostMapping("/requestRes/{status}")
     public int requestRes(@PathVariable int status, @RequestBody ReservationDto reservationDto) {
         return  messageService.reserve(status, reservationDto);
+    }
+
+    @GetMapping("/getPosts/{email}")
+    public Set<GetPostsDto> getPosts(@PathVariable String email) {
+        return messageService.getPosts(email);
+    }
+    @GetMapping("/responseRes/{guideId}")
+    public void responseRes(@PathVariable Long guideId) {
+        messageService.responseRes(guideId);
     }
 }
