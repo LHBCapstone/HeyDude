@@ -32,6 +32,7 @@ public class Guide {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
