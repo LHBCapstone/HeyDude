@@ -37,6 +37,7 @@ public class Guide {
         createdAt = LocalDateTime.now();
     }
 
+
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
